@@ -2,7 +2,7 @@ const internModel = require('../model/internModel')
 const collegeModel = require('../model/collegeModel')
 const validator = require("email-validator");
 const _ = require('lodash');
-const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/im;
+const mo = /^([6-9]\d{9})$/
 
 
 
@@ -25,13 +25,13 @@ const createIntern = async (req, res) => {
         const { name, email, mobile, collegeName, isDeleted } = req.body
 
         if (_.isEmpty(req.body)) {
-            return res.status(400).send({ status: false, messgae: "Oppss..!! All fields are mendatory...." })
+            return res.status(400).send({ status: false, messgae: "Oppss..!! All fields are mandatory...." })
         }
 
         // ============================================================== validating name =========================================================
 
         if (!name) {
-            return res.status(400).send({ status: false, messgae: "Oppss...!! Name is mendatory.." })
+            return res.status(400).send({ status: false, messgae: "Oppss...!! Name is mandatory.." })
 
         } else if (!validName(name)) {
             return res.status(400).send({ status: false, message: "Oh noo...!! Blank Spaces are not Allowed in name" })
@@ -40,7 +40,7 @@ const createIntern = async (req, res) => {
             // ============================================= email validation =======================================================
 
         } else if (!email) {
-            return res.status(400).send({ status: false, messgae: "Oppss...!! email is mendatory.." })
+            return res.status(400).send({ status: false, messgae: "Oppss...!! email is mandatory.." })
 
         } else if (!validName(email)) {
             return res.status(400).send({ status: false, message: "Oh noo...!! Blank Spaces are not Allowed in email" })
@@ -53,12 +53,12 @@ const createIntern = async (req, res) => {
 
 
         else if (!mobile) {
-            return res.status(400).send({ status: false, messgae: "Oppss...!! mobile is mendatory.." })
+            return res.status(400).send({ status: false, messgae: "Oppss...!! mobile is mandatory.." })
 
         } else if (!validName(mobile)) {
             return res.status(400).send({ status: false, message: "Oh noo...!! Blank Spaces are not Allowed in mobile" })
 
-        } else if (re.test(mobile) != true) {
+        } else if (mo.test(mobile) != true) {
             return res.status(400).send({ status: false, messgae: "Oppss...!! Invalid Mobile Number" })
 
 
@@ -68,7 +68,7 @@ const createIntern = async (req, res) => {
             // ============================= collegeName validation ===========================================================
 
         } else if (!collegeName) {
-            return res.status(400).send({ status: false, messgae: "Oppss...!! collegeName is mendatory.." })
+            return res.status(400).send({ status: false, messgae: "Oppss...!! collegeName is mandatory.." })
 
         } else if (!validName(collegeName)) {
             return res.status(400).send({ status: false, message: "Oh noo...!! Blank Spaces are not Allowed in collegeName" })

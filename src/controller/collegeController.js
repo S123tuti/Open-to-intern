@@ -1,4 +1,5 @@
 const collegeModel = require("../model/collegeModel");
+const validator = require("validator")
 
 // ====================================== APIs/ college ==============================================================
 
@@ -9,7 +10,7 @@ const isvalidResquest = (requestBody) => {
 //============================================validations======================================================================
 
 const validName = (val) => {
-    if (typeof val === "undefined" || typeof val === null) 
+    if (typeof val === "undefined" || typeof val === null)  
         return false;
     if (typeof val === 'string' && val.trim().length == 0) return false
     return true;
@@ -21,13 +22,13 @@ const validName = (val) => {
 const createCollege = async (req, res) => {
     try {
         let requestBody = req.body
-        if (!isvalidResquest(requestBody)) return res.status(400).send({ satus: false, message: "Oppss..!! please provide valid details in body section" })
+        if (!isvalidResquest(requestBody)) return res.status(400).send({ status: false, message: "Oppss..!! please provide valid details in body section" })
 
         let { name, fullName, logoLink } = requestBody
 
         //============================ name required ===============================================================
 
-        if (!name) return res.status(400).send({ status: false, message: "Oppss..!! name is Required" });
+        if (!name) return res.status(400).send({ status: false, message: "Oppss..!! name is Required" }); 
 
         if (!validName(name))
         return res.status(400).send({ status: false, message: "Oh noo..!! Blank Spaces are not Allowed in name" })
@@ -41,11 +42,8 @@ const createCollege = async (req, res) => {
         
         // ================================ logoLink mandatory =============================================================
          
-        if (!logoLink) return res.status(400).send({ status: false, message: "Oppss..!! logo link is required" });
-
-        if (!validName(logoLink))
-        return res.status(400).send({ status: false, message: "Oh noo..!! Blank Spaces are not Allowed in name" })
-
+        if(!validator.isURL(logoLink))return res.status(400).send({status: false, message: "Oh noo..!! Invalid Url  !!!"})
+       
         // ========================== if name is already used ============================================================
 
         let newName = await collegeModel.findOne({ name })

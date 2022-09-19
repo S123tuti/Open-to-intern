@@ -4,13 +4,13 @@ const internModel = require('../model/internModel')
 // ===================================== College Details ==============================================================
 
 
-const getCollegeDetails = async (req, res) => {
-    try {
+const getCollegeDetails = async function (req, res) {
+    try { 
         const collegeName = req.query.collegeName
 
 // ============================ provide data to fetch the details ==============================================================
 
-        if (!collegeName) {
+        if (!collegeName) { 
             return res.status(400).send({ status: false, message: "Oppss..!! please provide data to fetch the details" })
         }
         const result = {}
@@ -38,7 +38,7 @@ const getCollegeDetails = async (req, res) => {
             return res.status(400).send({ status: false, message: "Oppss..!! No intern applied" })
         }
 
-        return res.status(200).send({ status: true, message: result })
+        return res.status(200).send({ status: true, data: result })
     }
     catch (err) {
         return res.status(500).send({ status: false, message: err.message })
